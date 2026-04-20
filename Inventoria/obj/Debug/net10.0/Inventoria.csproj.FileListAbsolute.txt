@@ -1,0 +1,17 @@
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.exe
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.deps.json
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.runtimeconfig.json
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.dll
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.pdb
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.xml
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.AssemblyInfoInputs.cache
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.AssemblyInfo.cs
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.csproj.CoreCompileInputs.cache
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.sourcelink.json
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.dll
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\refint\Inventoria.dll
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.xml
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.pdb
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.genruntimeconfig.cache
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\ref\Inventoria.dll
