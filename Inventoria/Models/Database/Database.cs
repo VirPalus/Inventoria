@@ -134,6 +134,7 @@ public static class Database
 
     /// <summary>
     /// Sets a value at a dot-separated path inside a JSON node.
+    /// Only primitive values can be overwritten, not nested objects or arrays.
     /// </summary>
     /// <param name="node">The JSON node to start from.</param>
     /// <param name="path">Dot-separated path (e.g. "stock.quantity").</param>
@@ -155,6 +156,12 @@ public static class Database
 
         int lastIndex = parts.Length - 1;
         string lastKey = parts[lastIndex];
+
+        if (current[lastKey] is not JsonValue)
+        {
+            return false;
+        }
+
         current[lastKey] = ConvertToJsonNode(value);
         return true;
     }

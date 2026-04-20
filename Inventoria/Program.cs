@@ -16,9 +16,9 @@ internal static class Program
 
         Database.Add(asusLaptop);
 
-        Console.WriteLine(Database.Read(1,"price"));
-        Database.Write(1,"price",5000.00);
-        Console.WriteLine(Database.Read(1,"price"));
+        Console.WriteLine(Database.Read(1,"stock.quantity"));
+        Database.Write(1,"stock.quantity",15);
+        Console.WriteLine(Database.Read(1,"stock.quantity"));
 
         Console.ReadLine();
     }
