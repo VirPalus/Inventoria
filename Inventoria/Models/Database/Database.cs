@@ -48,19 +48,43 @@ public static class Database
     }
 
     /// <summary>
-    /// Navigates through a JSON element using a dot-separated path.
+    /// Loads and parses the database JSON file. Creates it if missing.
     /// </summary>
-    /// <param name="element">The JSON element to start from.</param>
+    /// <param name="root">The parsed root node, or null if the file is empty.</param>
+    /// <returns>True if the file was loaded and parsed, false if empty or just created.</returns>
+    private static bool TryLoadRoot(out JsonNode root)
+    {
+        root = null!;
+
+        if (!TryFile(out string content))
+        {
+            return false;
+        }
+
+        if (JsonNode.Parse(content) is not JsonNode parsed)
+        {
+            return false;
+        }
+
+        root = parsed;
+        return true;
+    }
+
+    /// <summary>
+    /// Navigates through a JSON node using a dot-separated path.
+    /// </summary>
+    /// <param name="node">The JSON node to start from.</param>
     /// <param name="path">Dot-separated path (e.g. "stock.quantity").</param>
     /// <returns>The resolved value as string, or empty string if any part was not found.</returns>
-    private static string ResolvePath(JsonElement element, string path)
+    private static string ResolvePath(JsonNode node, string path)
     {
-        JsonElement current = element;
+        JsonNode current = node;
         string[] parts = path.Split('.');
 
         foreach (string part in parts)
         {
-            if (!current.TryGetProperty(part, out JsonElement next))
+            JsonNode? next = current[part];
+            if (next is null)
             {
                 return string.Empty;
             }
@@ -79,8 +103,8 @@ public static class Database
     /// <returns>True if the path was found and set, otherwise false.</returns>
     private static bool SetPath(JsonNode node, string path, object value)
     {
-        string[] parts = path.Split('.');
         JsonNode current = node;
+        string[] parts = path.Split('.');
 
         for (int i = 0; i < parts.Length - 1; i++)
         {
@@ -98,29 +122,26 @@ public static class Database
     }
 
     /// <summary>
-    /// Calculates the next available id by finding the current maximum and adding 1.
+    /// Gets the next available id by taking the last item's id + 1.
     /// </summary>
     /// <param name="array">The database array to check.</param>
     /// <returns>The next available id. Returns 1 if the array is empty.</returns>
     private static int GetNextId(JsonArray array)
     {
-        int maxId = 0;
-
-        foreach (JsonNode item in array.OfType<JsonNode>())
+        if (array.Count == 0)
         {
-            if (item["id"] is not JsonValue idNode)
-            {
-                continue;
-            }
-
-            int currentId = idNode.GetValue<int>();
-            if (currentId > maxId)
-            {
-                maxId = currentId;
-            }
+            return 1;
         }
 
-        return maxId + 1;
+        int lastIndex = array.Count - 1;
+        JsonNode lastItem = array[lastIndex]!;
+
+        if (lastItem["id"] is not JsonValue id)
+        {
+            return array.Count + 1;
+        }
+
+        return id.GetValue<int>() + 1;
     }
 
     /// <summary>
@@ -141,20 +162,27 @@ public static class Database
     /// <returns>The value as string, or empty string if not found.</returns>
     public static string Read(int id, string attribute)
     {
-        if (!TryFile(out string content))
+        if (!TryLoadRoot(out JsonNode root))
         {
             return string.Empty;
         }
 
-        using JsonDocument doc = JsonDocument.Parse(content);
-        JsonElement array = doc.RootElement.GetProperty("database");
-
-        foreach (JsonElement item in array.EnumerateArray())
+        if (root["database"] is not JsonArray array)
         {
-            if (item.GetProperty("id").GetInt32() == id)
+            return string.Empty;
+        }
+
+        foreach (JsonNode item in array.OfType<JsonNode>())
+        {
+            if (item["id"] is not JsonValue idNode)
             {
-                return ResolvePath(item, attribute);
+                continue;
             }
+            if (idNode.GetValue<int>() != id)
+            {
+                continue;
+            }
+            return ResolvePath(item, attribute);
         }
 
         return string.Empty;
@@ -169,18 +197,16 @@ public static class Database
     /// <returns>True if the write succeeded, false if id or attribute was not found.</returns>
     public static bool Write(int id, string attribute, object value)
     {
-        if (!TryFile(out string content))
+        if (!TryLoadRoot(out JsonNode root))
         {
             return false;
         }
-        if (JsonNode.Parse(content) is not JsonNode root)
-        {
-            return false;
-        }
+
         if (root["database"] is not JsonArray array)
         {
             return false;
         }
+
         foreach (JsonNode item in array.OfType<JsonNode>())
         {
             if (item["id"] is not JsonValue idNode)
@@ -198,6 +224,7 @@ public static class Database
             SaveRoot(root);
             return true;
         }
+
         return false;
     }
 
@@ -209,18 +236,17 @@ public static class Database
     public static int Add(IJsonObject item)
     {
         JsonObject obj = item.ToJsonObject();
-        if (!TryFile(out string content))
+
+        if (!TryLoadRoot(out JsonNode root))
         {
-            content = "{\"database\":[]}";
+            root = JsonNode.Parse("{\"database\":[]}")!;
         }
-        if (JsonNode.Parse(content) is not JsonNode root)
-        {
-            return -1;
-        }
+
         if (root["database"] is not JsonArray array)
         {
             return -1;
         }
+
         int newId = GetNextId(array);
         obj["id"] = newId;
         array.Add(obj);
@@ -235,14 +261,11 @@ public static class Database
     /// <returns>True if the item was removed, false if id was not found.</returns>
     public static bool Remove(int id)
     {
-        if (!TryFile(out string content))
+        if (!TryLoadRoot(out JsonNode root))
         {
             return false;
         }
-        if (JsonNode.Parse(content) is not JsonNode root)
-        {
-            return false;
-        }
+
         if (root["database"] is not JsonArray array)
         {
             return false;
