@@ -190,13 +190,19 @@ public static class Database
 
     /// <summary>
     /// Writes a new value to an existing attribute. Supports nested attributes via dot notation.
+    /// The id field cannot be overwritten to prevent database corruption.
     /// </summary>
     /// <param name="id">Id of the item to update.</param>
     /// <param name="attribute">Attribute path, e.g. "name" or "stock.quantity".</param>
     /// <param name="value">The new value.</param>
-    /// <returns>True if the write succeeded, false if id or attribute was not found.</returns>
+    /// <returns>True if the write succeeded, false if id or attribute was not found, or if attribute is "id".</returns>
     public static bool Write(int id, string attribute, object value)
     {
+        if (attribute == "id")
+        {
+            return false;
+        }
+
         if (!TryLoadRoot(out JsonNode root))
         {
             return false;
