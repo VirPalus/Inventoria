@@ -25,6 +25,13 @@
             <param name="root">The parsed root node, or null if the file is empty.</param>
             <returns>True if the file was loaded and parsed, false if empty or just created.</returns>
         </member>
+        <member name="M:Inventoria.Models.Database.Database.ConvertToJsonNode(System.Object)">
+            <summary>
+            Converts a .NET value into a JsonNode using typed overloads to avoid custom serialization.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <returns>A JsonNode representing the value.</returns>
+        </member>
         <member name="M:Inventoria.Models.Database.Database.ResolvePath(System.Text.Json.Nodes.JsonNode,System.String)">
             <summary>
             Navigates through a JSON node using a dot-separated path.

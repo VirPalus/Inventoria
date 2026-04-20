@@ -5,24 +5,20 @@ internal static class Program
 {
     private static void Main()
     {
-        Product newProduct = new(
-            "Corsair Vengeance 64GB DDR5-6000",
-            "2x32GB DDR5 memory kit, CL30",
-            "Memory",
-            749.00,
-            15,
-            6
+        Product asusLaptop = new(
+            "Asus Laptop",
+            "Gaming Laptop",
+            "laptop",
+            1600.00,
+            10,
+            2
         );
 
-        int newId = Database.Add(newProduct);
+        Database.Add(asusLaptop);
 
-        Console.WriteLine($"Toegevoegd met id: {newId}");
-        Console.WriteLine($"Naam: {Database.Read(newId, "name")}");
-        Console.WriteLine($"Prijs: {Database.Read(newId, "price")}");
-        Console.WriteLine($"Voorraad: {Database.Read(newId, "stock.quantity")}");
-
-
-        Console.WriteLine($"\n[{newId}] Verwijderd: {Database.Remove(newId)}");
+        Console.WriteLine(Database.Read(1,"price"));
+        Database.Write(1,"price",5000.00);
+        Console.WriteLine(Database.Read(1,"price"));
 
         Console.ReadLine();
     }

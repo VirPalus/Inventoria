@@ -13,11 +13,14 @@ public static class Database
 {
     private static readonly string JsonFolderPath = Path.Combine(AppContext.BaseDirectory, "Models", "Database", "JSON");
 
-    private static readonly JsonSerializerOptions JsonOptions = new()
+    private static readonly JsonSerializerOptions ReadOptions = new()
     {
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         PropertyNameCaseInsensitive = true
+    };
+
+    private static readonly JsonSerializerOptions WriteOptions = new()
+    {
+        WriteIndented = true
     };
 
     /// <summary>
@@ -71,6 +74,42 @@ public static class Database
     }
 
     /// <summary>
+    /// Converts a .NET value into a JsonNode using typed overloads to avoid custom serialization.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>A JsonNode representing the value.</returns>
+    private static JsonNode ConvertToJsonNode(object value)
+    {
+        if (value is string stringValue)
+        {
+            return JsonValue.Create(stringValue)!;
+        }
+        if (value is int intValue)
+        {
+            return JsonValue.Create(intValue);
+        }
+        if (value is long longValue)
+        {
+            return JsonValue.Create(longValue);
+        }
+        if (value is double doubleValue)
+        {
+            return JsonValue.Create(doubleValue);
+        }
+        if (value is decimal decimalValue)
+        {
+            return JsonValue.Create(decimalValue);
+        }
+        if (value is bool boolValue)
+        {
+            return JsonValue.Create(boolValue);
+        }
+
+        string fallback = value.ToString() ?? string.Empty;
+        return JsonValue.Create(fallback)!;
+    }
+
+    /// <summary>
     /// Navigates through a JSON node using a dot-separated path.
     /// </summary>
     /// <param name="node">The JSON node to start from.</param>
@@ -83,8 +122,7 @@ public static class Database
 
         foreach (string part in parts)
         {
-            JsonNode? next = current[part];
-            if (next is null)
+            if (current[part] is not JsonNode next)
             {
                 return string.Empty;
             }
@@ -108,16 +146,16 @@ public static class Database
 
         for (int i = 0; i < parts.Length - 1; i++)
         {
-            JsonNode? next = current[parts[i]];
-            if (next is null)
+            if (current[parts[i]] is not JsonNode next)
             {
                 return false;
             }
             current = next;
         }
 
-        string lastKey = parts[^1];
-        current[lastKey] = JsonValue.Create(value);
+        int lastIndex = parts.Length - 1;
+        string lastKey = parts[lastIndex];
+        current[lastKey] = ConvertToJsonNode(value);
         return true;
     }
 
@@ -134,7 +172,10 @@ public static class Database
         }
 
         int lastIndex = array.Count - 1;
-        JsonNode lastItem = array[lastIndex]!;
+        if (array[lastIndex] is not JsonNode lastItem)
+        {
+            return array.Count + 1;
+        }
 
         if (lastItem["id"] is not JsonValue id)
         {
@@ -151,7 +192,7 @@ public static class Database
     private static void SaveRoot(JsonNode root)
     {
         string fullPath = Path.Combine(JsonFolderPath, "database.json");
-        File.WriteAllText(fullPath, root.ToJsonString(JsonOptions));
+        File.WriteAllText(fullPath, root.ToJsonString(WriteOptions));
     }
 
     /// <summary>
@@ -241,11 +282,15 @@ public static class Database
     /// <returns>The id of the newly added item, or -1 if adding failed.</returns>
     public static int Add(IJsonObject item)
     {
-        JsonObject obj = item.ToJsonObject();
+        JsonObject sourceObj = item.ToJsonObject();
 
         if (!TryLoadRoot(out JsonNode root))
         {
-            root = JsonNode.Parse("{\"database\":[]}")!;
+            if (JsonNode.Parse("{\"database\":[]}") is not JsonNode emptyRoot)
+            {
+                return -1;
+            }
+            root = emptyRoot;
         }
 
         if (root["database"] is not JsonArray array)
@@ -254,8 +299,22 @@ public static class Database
         }
 
         int newId = GetNextId(array);
-        obj["id"] = newId;
-        array.Add(obj);
+
+        JsonObject finalObj = new()
+        {
+            ["id"] = newId
+        };
+
+        foreach (KeyValuePair<string, JsonNode?> pair in sourceObj)
+        {
+            if (pair.Value is not JsonNode value)
+            {
+                continue;
+            }
+            finalObj[pair.Key] = value.DeepClone();
+        }
+
+        array.Add(finalObj);
         SaveRoot(root);
         return newId;
     }
@@ -279,8 +338,7 @@ public static class Database
 
         for (int i = 0; i < array.Count; i++)
         {
-            JsonNode? item = array[i];
-            if (item is null)
+            if (array[i] is not JsonNode item)
             {
                 continue;
             }
