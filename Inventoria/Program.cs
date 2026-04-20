@@ -18,7 +18,7 @@ internal static class Program
 
         Console.WriteLine(Database.Read(1,"stock.quantity"));
         Database.Write(1,"stock.quantity",15);
-        Console.WriteLine(Database.Read(1,"stock.quantity"));
+        Console.WriteLine(Database.ReadNode(1));
 
         Console.ReadLine();
     }

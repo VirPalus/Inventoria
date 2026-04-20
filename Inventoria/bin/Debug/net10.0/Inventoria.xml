@@ -63,6 +63,13 @@
             </summary>
             <param name="root">The JSON root node to save.</param>
         </member>
+        <member name="M:Inventoria.Models.Database.Database.ReadNode(System.Int32)">
+            <summary>
+            Reads an entire item from the database by id as a JsonNode.
+            </summary>
+            <param name="id">Id of the item to find.</param>
+            <returns>The JsonNode representing the item, or null if not found.</returns>
+        </member>
         <member name="M:Inventoria.Models.Database.Database.Read(System.Int32,System.String)">
             <summary>
             Reads a value by id. Supports nested attributes via dot notation (e.g. "stock.quantity").

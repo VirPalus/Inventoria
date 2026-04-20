@@ -203,6 +203,39 @@ public static class Database
     }
 
     /// <summary>
+    /// Reads an entire item from the database by id as a JsonNode.
+    /// </summary>
+    /// <param name="id">Id of the item to find.</param>
+    /// <returns>The JsonNode representing the item, or null if not found.</returns>
+    public static JsonNode? ReadNode(int id)
+    {
+        if (!TryLoadRoot(out JsonNode root))
+        {
+            return null;
+        }
+
+        if (root["database"] is not JsonArray array)
+        {
+            return null;
+        }
+
+        foreach (JsonNode item in array.OfType<JsonNode>())
+        {
+            if (item["id"] is not JsonValue idNode)
+            {
+                continue;
+            }
+            if (idNode.GetValue<int>() != id)
+            {
+                continue;
+            }
+            return item.DeepClone();
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Reads a value by id. Supports nested attributes via dot notation (e.g. "stock.quantity").
     /// </summary>
     /// <param name="id">Id of the item to find.</param>
