@@ -18,11 +18,18 @@
             <param name="content">The file content, or empty string if the file is empty.</param>
             <returns>True if content was read, false if file was empty or just created.</returns>
         </member>
-        <member name="M:Inventoria.Models.Database.Database.ResolvePath(System.Text.Json.JsonElement,System.String)">
+        <member name="M:Inventoria.Models.Database.Database.TryLoadRoot(System.Text.Json.Nodes.JsonNode@)">
             <summary>
-            Navigates through a JSON element using a dot-separated path.
+            Loads and parses the database JSON file. Creates it if missing.
             </summary>
-            <param name="element">The JSON element to start from.</param>
+            <param name="root">The parsed root node, or null if the file is empty.</param>
+            <returns>True if the file was loaded and parsed, false if empty or just created.</returns>
+        </member>
+        <member name="M:Inventoria.Models.Database.Database.ResolvePath(System.Text.Json.Nodes.JsonNode,System.String)">
+            <summary>
+            Navigates through a JSON node using a dot-separated path.
+            </summary>
+            <param name="node">The JSON node to start from.</param>
             <param name="path">Dot-separated path (e.g. "stock.quantity").</param>
             <returns>The resolved value as string, or empty string if any part was not found.</returns>
         </member>
@@ -37,7 +44,7 @@
         </member>
         <member name="M:Inventoria.Models.Database.Database.GetNextId(System.Text.Json.Nodes.JsonArray)">
             <summary>
-            Calculates the next available id by finding the current maximum and adding 1.
+            Gets the next available id by taking the last item's id + 1.
             </summary>
             <param name="array">The database array to check.</param>
             <returns>The next available id. Returns 1 if the array is empty.</returns>
@@ -59,11 +66,12 @@
         <member name="M:Inventoria.Models.Database.Database.Write(System.Int32,System.String,System.Object)">
             <summary>
             Writes a new value to an existing attribute. Supports nested attributes via dot notation.
+            The id field cannot be overwritten to prevent database corruption.
             </summary>
             <param name="id">Id of the item to update.</param>
             <param name="attribute">Attribute path, e.g. "name" or "stock.quantity".</param>
             <param name="value">The new value.</param>
-            <returns>True if the write succeeded, false if id or attribute was not found.</returns>
+            <returns>True if the write succeeded, false if id or attribute was not found, or if attribute is "id".</returns>
         </member>
         <member name="M:Inventoria.Models.Database.Database.Add(Inventoria.Models.Interfaces.IJsonObject)">
             <summary>
