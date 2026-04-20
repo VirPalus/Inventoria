@@ -15,3 +15,4 @@ C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventori
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.pdb
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.genruntimeconfig.cache
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\ref\Inventoria.dll
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Models\Database\JSON\DataBase.json
