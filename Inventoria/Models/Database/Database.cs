@@ -202,24 +202,21 @@ public static class Database
         File.WriteAllText(fullPath, root.ToJsonString(WriteOptions));
     }
 
-   /// <summary>
-    /// Tries to read an entire item from the database by id as a JsonNode.
+    /// <summary>
+    /// Reads an entire item from the database by id.
     /// </summary>
     /// <param name="id">Id of the item to find.</param>
-    /// <param name="node">The JsonNode representing the item, or empty JsonObject if not found.</param>
-    /// <returns>True if the item was found, otherwise false.</returns>
-    public static bool ReadNode(int id, out JsonNode node)
+    /// <returns>The item as a JSON string, or empty string if not found.</returns>
+    public static string ReadNode(int id)
     {
-        node = new JsonObject();
-
         if (!TryLoadRoot(out JsonNode root))
         {
-            return false;
+            return string.Empty;
         }
 
         if (root["database"] is not JsonArray array)
         {
-            return false;
+            return string.Empty;
         }
 
         foreach (JsonNode item in array.OfType<JsonNode>())
@@ -232,13 +229,12 @@ public static class Database
             {
                 continue;
             }
-            node = item.DeepClone();
-            return true;
+            return item.ToJsonString(WriteOptions);
         }
 
-        return false;
+        return string.Empty;
     }
-    
+
     /// <summary>
     /// Reads a value by id. Supports nested attributes via dot notation (e.g. "stock.quantity").
     /// </summary>
