@@ -58,7 +58,8 @@ Naam:         Asus Laptop
 Beschrijving: Gaming Laptop
 Categorie:    Laptops
 Prijs:        1600.00
-Voorraad:     10 (min: 2)
+Voorraad:     10 
+min: 2
 
 Wat wil je aanpassen?
 1. Naam
