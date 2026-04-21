@@ -5,21 +5,7 @@ internal static class Program
 {
     private static void Main()
     {
-        Product asusLaptop = new(
-            "Asus Laptop",
-            "Gaming Laptop",
-            "laptop",
-            1600.00,
-            10,
-            2
-        );
-
-        Database.Add(asusLaptop);
-
-        Console.WriteLine(Database.Read(1,"stock.quantity"));
-        Database.Write(1,"stock.quantity",15);
         Console.WriteLine(Database.ReadNode(1));
-
         Console.ReadLine();
     }
 }

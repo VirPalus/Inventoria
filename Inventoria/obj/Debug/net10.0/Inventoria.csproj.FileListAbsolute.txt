@@ -1,3 +1,4 @@
+C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Models\Database\JSON\DataBase.json
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.exe
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.deps.json
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.runtimeconfig.json
@@ -15,22 +16,3 @@ C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventori
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.pdb
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.genruntimeconfig.cache
 C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\ref\Inventoria.dll
-C:\Users\Mario Moerman\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Models\Database\JSON\DataBase.json
-C:\Users\mario\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Models\Database\JSON\DataBase.json
-C:\Users\mario\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.exe
-C:\Users\mario\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.deps.json
-C:\Users\mario\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.runtimeconfig.json
-C:\Users\mario\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.dll
-C:\Users\mario\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.pdb
-C:\Users\mario\Desktop\Inventoria\Inventoria\bin\Debug\net10.0\Inventoria.xml
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.AssemblyInfoInputs.cache
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.AssemblyInfo.cs
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.csproj.CoreCompileInputs.cache
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.sourcelink.json
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.dll
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\refint\Inventoria.dll
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.xml
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.pdb
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\Inventoria.genruntimeconfig.cache
-C:\Users\mario\Desktop\Inventoria\Inventoria\obj\Debug\net10.0\ref\Inventoria.dll
