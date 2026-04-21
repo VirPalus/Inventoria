@@ -62,17 +62,16 @@ public static class Menu
             switch (keuzen)
             {
                 case 1:
-                    ProductToevoegen(keuzen);
+                    ProductToevoegen();
                 break;
                 
                 case 2:
-                    int keuzen2 = ToonMenu(AanpassingsMenu);
-                    while (keuzen2 != 0)
+                    int Aanpassing = ToonMenu(AanpassingsMenu);
+                    while (Aanpassing != 0)
                     {
-                        ProductAanpassen(keuzen2);
-                        keuzen2 = ToonMenu(AanpassingsMenu);
+                        ProductAanpassen(Aanpassing);
+                        Aanpassing = ToonMenu(AanpassingsMenu);
                     }
-
                 break;
 
                 case 3:
@@ -99,7 +98,7 @@ public static class Menu
     /// <summary>
     /// Menu Product Toevoegen.
     /// </summary>
-    public static void ProductToevoegen(int keuzen)
+    public static void ProductToevoegen()
     {
         
         string name = VraagString("Name: ");
