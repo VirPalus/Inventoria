@@ -25,20 +25,11 @@
             <param name="root">The parsed root node, or null if the file is empty.</param>
             <returns>True if the file was loaded and parsed, false if empty or just created.</returns>
         </member>
-        <member name="M:Inventoria.Models.Database.Database.ConvertToJsonNode(System.Object)">
+        <member name="M:Inventoria.Models.Database.Database.SaveRoot(System.Text.Json.Nodes.JsonNode)">
             <summary>
-            Converts a .NET value into a JsonNode using typed overloads to avoid custom serialization.
+            Saves the root JSON node back to the database file.
             </summary>
-            <param name="value">The value to convert.</param>
-            <returns>A JsonNode representing the value.</returns>
-        </member>
-        <member name="M:Inventoria.Models.Database.Database.ResolvePath(System.Text.Json.Nodes.JsonNode,System.String)">
-            <summary>
-            Navigates through a JSON node using a dot-separated path.
-            </summary>
-            <param name="node">The JSON node to start from.</param>
-            <param name="path">Dot-separated path (e.g. "stock.quantity").</param>
-            <returns>The resolved value as string, or empty string if any part was not found.</returns>
+            <param name="root">The JSON root node to save.</param>
         </member>
         <member name="M:Inventoria.Models.Database.Database.SetPath(System.Text.Json.Nodes.JsonNode,System.String,System.Object)">
             <summary>
@@ -50,18 +41,27 @@
             <param name="value">The new value.</param>
             <returns>True if the path was found and set, otherwise false.</returns>
         </member>
+        <member name="M:Inventoria.Models.Database.Database.ResolvePath(System.Text.Json.Nodes.JsonNode,System.String)">
+            <summary>
+            Navigates through a JSON node using a dot-separated path.
+            </summary>
+            <param name="node">The JSON node to start from.</param>
+            <param name="path">Dot-separated path (e.g. "stock.quantity").</param>
+            <returns>The resolved value as string, or empty string if any part was not found.</returns>
+        </member>
+        <member name="M:Inventoria.Models.Database.Database.ConvertToJsonNode(System.Object)">
+            <summary>
+            Converts a .NET value into a JsonNode using typed overloads to avoid custom serialization.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <returns>A JsonNode representing the value.</returns>
+        </member>
         <member name="M:Inventoria.Models.Database.Database.GetNextId(System.Text.Json.Nodes.JsonArray)">
             <summary>
             Gets the next available id by taking the last item's id + 1.
             </summary>
             <param name="array">The database array to check.</param>
             <returns>The next available id. Returns 1 if the array is empty.</returns>
-        </member>
-        <member name="M:Inventoria.Models.Database.Database.SaveRoot(System.Text.Json.Nodes.JsonNode)">
-            <summary>
-            Saves the root JSON node back to the database file.
-            </summary>
-            <param name="root">The JSON root node to save.</param>
         </member>
         <member name="M:Inventoria.Models.Database.Database.ReadNode(System.Int32)">
             <summary>

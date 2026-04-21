@@ -74,62 +74,13 @@ public static class Database
     }
 
     /// <summary>
-    /// Converts a .NET value into a JsonNode using typed overloads to avoid custom serialization.
+    /// Saves the root JSON node back to the database file.
     /// </summary>
-    /// <param name="value">The value to convert.</param>
-    /// <returns>A JsonNode representing the value.</returns>
-    private static JsonNode ConvertToJsonNode(object value)
+    /// <param name="root">The JSON root node to save.</param>
+    private static void SaveRoot(JsonNode root)
     {
-        if (value is string stringValue)
-        {
-            return JsonValue.Create(stringValue)!;
-        }
-        if (value is int intValue)
-        {
-            return JsonValue.Create(intValue);
-        }
-        if (value is long longValue)
-        {
-            return JsonValue.Create(longValue);
-        }
-        if (value is double doubleValue)
-        {
-            return JsonValue.Create(doubleValue);
-        }
-        if (value is decimal decimalValue)
-        {
-            return JsonValue.Create(decimalValue);
-        }
-        if (value is bool boolValue)
-        {
-            return JsonValue.Create(boolValue);
-        }
-
-        string fallback = value.ToString() ?? string.Empty;
-        return JsonValue.Create(fallback)!;
-    }
-
-    /// <summary>
-    /// Navigates through a JSON node using a dot-separated path.
-    /// </summary>
-    /// <param name="node">The JSON node to start from.</param>
-    /// <param name="path">Dot-separated path (e.g. "stock.quantity").</param>
-    /// <returns>The resolved value as string, or empty string if any part was not found.</returns>
-    private static string ResolvePath(JsonNode node, string path)
-    {
-        JsonNode current = node;
-        string[] parts = path.Split('.');
-
-        foreach (string part in parts)
-        {
-            if (current[part] is not JsonNode next)
-            {
-                return string.Empty;
-            }
-            current = next;
-        }
-
-        return current.ToString();
+        string fullPath = Path.Combine(JsonFolderPath, "database.json");
+        File.WriteAllText(fullPath, root.ToJsonString(WriteOptions));
     }
 
     /// <summary>
@@ -167,6 +118,65 @@ public static class Database
     }
 
     /// <summary>
+    /// Navigates through a JSON node using a dot-separated path.
+    /// </summary>
+    /// <param name="node">The JSON node to start from.</param>
+    /// <param name="path">Dot-separated path (e.g. "stock.quantity").</param>
+    /// <returns>The resolved value as string, or empty string if any part was not found.</returns>
+    private static string ResolvePath(JsonNode node, string path)
+    {
+        JsonNode current = node;
+        string[] parts = path.Split('.');
+
+        foreach (string part in parts)
+        {
+            if (current[part] is not JsonNode next)
+            {
+                return string.Empty;
+            }
+            current = next;
+        }
+
+        return current.ToString();
+    }
+
+    /// <summary>
+    /// Converts a .NET value into a JsonNode using typed overloads to avoid custom serialization.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>A JsonNode representing the value.</returns>
+    private static JsonNode ConvertToJsonNode(object value)
+    {
+        if (value is string stringValue)
+        {
+            return JsonValue.Create(stringValue)!;
+        }
+        if (value is int intValue)
+        {
+            return JsonValue.Create(intValue);
+        }
+        if (value is long longValue)
+        {
+            return JsonValue.Create(longValue);
+        }
+        if (value is double doubleValue)
+        {
+            return JsonValue.Create(doubleValue);
+        }
+        if (value is decimal decimalValue)
+        {
+            return JsonValue.Create(decimalValue);
+        }
+        if (value is bool boolValue)
+        {
+            return JsonValue.Create(boolValue);
+        }
+
+        string fallback = value.ToString() ?? string.Empty;
+        return JsonValue.Create(fallback)!;
+    }
+
+    /// <summary>
     /// Gets the next available id by taking the last item's id + 1.
     /// </summary>
     /// <param name="array">The database array to check.</param>
@@ -190,16 +200,6 @@ public static class Database
         }
 
         return id.GetValue<int>() + 1;
-    }
-
-    /// <summary>
-    /// Saves the root JSON node back to the database file.
-    /// </summary>
-    /// <param name="root">The JSON root node to save.</param>
-    private static void SaveRoot(JsonNode root)
-    {
-        string fullPath = Path.Combine(JsonFolderPath, "database.json");
-        File.WriteAllText(fullPath, root.ToJsonString(WriteOptions));
     }
 
     /// <summary>
