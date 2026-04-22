@@ -120,32 +120,32 @@ public static class Menu
         {
             case 1:
                 Database.Write(VraagInt("Id: "),"name",VraagString("Name: "));
-                Bevestiging("Product is aangepast.");
+                Bevestiging("\nProduct is aangepast.");
             break;
             
             case 2:
                 Database.Write(VraagInt("Id: "),"description",VraagString("Description: "));
-                Bevestiging("Product is aangepast.");
+                Bevestiging("\nProduct is aangepast.");
             break;
 
             case 3:
                 Database.Write(VraagInt("Id: "),"category",VraagString("Category: "));
-                Bevestiging("Product is aangepast.");
+                Bevestiging("\nProduct is aangepast.");
             break;
 
             case 4:
                 Database.Write(VraagInt("Id: "),"price",VraagDouble("Price: "));
-                Bevestiging("Product is aangepast.");
+                Bevestiging("\nProduct is aangepast.");
             break;
 
             case 5:
                 Database.Write(VraagInt("Id: "),"stock.quantity",VraagInt("Quantity: "));
-                Bevestiging("Product is aangepast.");
+                Bevestiging("\nProduct is aangepast.");
             break;
 
             case 6:
                 Database.Write(VraagInt("Id: "),"stock.minQuantity",VraagInt("MinQuantity: "));
-                Bevestiging("Product is aangepast.");
+                Bevestiging("\nProduct is aangepast.");
             break;
 
             default:
