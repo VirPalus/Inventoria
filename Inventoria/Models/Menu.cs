@@ -4,12 +4,12 @@ using Inventoria.Models.Database;
 namespace Inventoria;
 
 /// <summary>
-/// A class that gives a menu.
+/// Beheert de menuweergave van de applicatie en verwerkt de gekozen menu-acties.
 /// </summary>
 public static class Menu
 {
     /// <summary>
-    /// Main menu text.
+    /// Bevat de tekstuele inhoud van het hoofdmenu.
     /// </summary>
     public static string HoofdMenu = 
     "=== Inventoria ===\n"+
@@ -23,7 +23,7 @@ public static class Menu
     "Keuzen: ";
 
     /// <summary>
-    /// Second menu text.
+    /// Bevat de tekstuele inhoud van het menu voor productaanpassingen.
     /// </summary>
     public static string AanpassingsMenu = 
     "Wat wil je aanpassen?\n"+
@@ -38,7 +38,7 @@ public static class Menu
 
 
     /// <summary>
-    /// Gives a menu based on question.
+    /// Toont het opgegeven menu, vraagt een geldige keuze en voert de bijhorende actie uit.
     /// </summary>
     public static int ToonMenu(string menu)
     {
@@ -49,7 +49,7 @@ public static class Menu
             Console.Clear();
             Console.Write(menu);
             input = Console.ReadLine() ?? string.Empty;
-        } while (!(int.TryParse(input, out keuzen) && keuzen >= 0 && keuzen <= 6));
+        } while(!(int.TryParse(input, out keuzen) && keuzen >= 0 && keuzen <= 6)); // Blijf doorgaan zolang NIET kan parse EN groter of gelijk is aan 0 EN kleiner of gelijk is aan 6.
 
         if (keuzen == 0)
         {
@@ -91,12 +91,11 @@ public static class Menu
                 break;
             }
         }
-
         return keuzen;
     }
 
     /// <summary>
-    /// Menu Product Toevoegen.
+    /// Vraagt productgegevens op, maakt een nieuw product aan en slaat dit op in de database.
     /// </summary>
     public static void ProductToevoegen()
     {
@@ -115,7 +114,7 @@ public static class Menu
     }
 
     /// <summary>
-    /// Menu Product Aanpassen.
+    /// Past een specifiek veld van een bestaand product aan op basis van de gekozen optie.
     /// </summary>
     public static void ProductAanpassen(int keuzen)
     {
@@ -145,7 +144,7 @@ public static class Menu
     }
 
     /// <summary>
-    /// Methode om een Int te vragen.
+    /// Vraagt invoer aan de gebruiker totdat een geldig geheel getal wordt ingevoerd.
     /// </summary>
     public static int VraagInt(string vraag)
     {
@@ -160,7 +159,7 @@ public static class Menu
     }
 
     /// <summary>
-    /// Methode om een String te vragen.
+    /// Vraagt invoer aan de gebruiker totdat een niet-lege tekstwaarde wordt ingevoerd.
     /// </summary>
     public static string VraagString(string vraag)
     {
@@ -174,7 +173,7 @@ public static class Menu
     }
 
     /// <summary>
-    /// Methode om een Double te vragen.
+    /// Vraagt invoer aan de gebruiker totdat een geldig kommagetal wordt ingevoerd.
     /// </summary>
     public static double VraagDouble(string vraag)
     {
@@ -187,7 +186,4 @@ public static class Menu
         } while (!double.TryParse(input, out getal));
         return getal;
     }
-
-   
-
 }
