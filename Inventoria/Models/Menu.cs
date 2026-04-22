@@ -11,7 +11,7 @@ public static class Menu
     /// <summary>
     /// Bevat de tekstuele inhoud van het hoofdmenu.
     /// </summary>
-    public static string HoofdMenu = 
+    public static readonly string HoofdMenu = 
     "=== Inventoria ===\n"+
     "1. Product toevoegen\n" + 
     "2. Product aanpassen\n"+
@@ -25,7 +25,7 @@ public static class Menu
     /// <summary>
     /// Bevat de tekstuele inhoud van het menu voor productaanpassingen.
     /// </summary>
-    public static string AanpassingsMenu = 
+    public static readonly string AanpassingsMenu = 
     "Wat wil je aanpassen?\n"+
     "1. Naam\n" + 
     "2. Beschrijving\n"+
@@ -49,14 +49,13 @@ public static class Menu
             Console.Clear();
             Console.Write(menu);
             input = Console.ReadLine() ?? string.Empty;
-        } while(!(int.TryParse(input, out keuzen) && keuzen >= 0 && keuzen <= 6)); // Blijf doorgaan zolang NIET kan parse EN groter of gelijk is aan 0 EN kleiner of gelijk is aan 6.
-
+        } while(!(int.TryParse(input, out keuzen) && keuzen >= 0 && keuzen <= 6)); // Blijf doorgaan zolang de keuzen geen geldig getal tussen 0 en 6 is.
         if (keuzen == 0)
         {
             return keuzen;
         }
 
-        if (menu.Contains("=== Inventoria ==="))
+        if (menu == HoofdMenu)
         {
           
             switch (keuzen)
@@ -66,11 +65,11 @@ public static class Menu
                 break;
                 
                 case 2:
-                    int Aanpassing = ToonMenu(AanpassingsMenu);
-                    while (Aanpassing != 0)
+                    int aanpassing = ToonMenu(AanpassingsMenu);
+                    while (aanpassing != 0)
                     {
-                        ProductAanpassen(Aanpassing);
-                        Aanpassing = ToonMenu(AanpassingsMenu);
+                        ProductAanpassen(aanpassing);
+                        aanpassing = ToonMenu(AanpassingsMenu);
                     }
                 break;
 
@@ -107,10 +106,9 @@ public static class Menu
         int quantity = VraagInt("Quantity: ");
         int minQuantity = VraagInt("minQuantity: ");
 
-        Product NewProduct = new(name, description, category, price, quantity, minQuantity);
-        int id = Database.Add(NewProduct);
-        Console.WriteLine($"{Database.Read(id,"name")} is toegevoegd.\n");
-
+        Product newProduct = new(name, description, category, price, quantity, minQuantity);
+        int id = Database.Add(newProduct);
+        Bevestiging($"\n{Database.Read(id, "name")} is toegevoegd.");
     }
 
     /// <summary>
@@ -120,22 +118,34 @@ public static class Menu
     {
         switch (keuzen)
         {
-            case 1:Database.Write(VraagInt("Id: "),"name",VraagString("Name: "));
+            case 1:
+                Database.Write(VraagInt("Id: "),"name",VraagString("Name: "));
+                Bevestiging("Product is aangepast.");
             break;
             
-            case 2:Database.Write(VraagInt("Id: "),"description",VraagString("Description: "));
+            case 2:
+                Database.Write(VraagInt("Id: "),"description",VraagString("Description: "));
+                Bevestiging("Product is aangepast.");
             break;
 
-            case 3:Database.Write(VraagInt("Id: "),"category",VraagString("Category: "));
+            case 3:
+                Database.Write(VraagInt("Id: "),"category",VraagString("Category: "));
+                Bevestiging("Product is aangepast.");
             break;
 
-            case 4:Database.Write(VraagInt("Id: "),"price",VraagString("Price: "));
+            case 4:
+                Database.Write(VraagInt("Id: "),"price",VraagDouble("Price: "));
+                Bevestiging("Product is aangepast.");
             break;
 
-            case 5:Database.Write(VraagInt("Id: "),"stock.quantity",VraagString("Quantity: "));
+            case 5:
+                Database.Write(VraagInt("Id: "),"stock.quantity",VraagInt("Quantity: "));
+                Bevestiging("Product is aangepast.");
             break;
 
-            case 6:Database.Write(VraagInt("Id: "),"stock.minQuantity",VraagString("MinQuantity: "));
+            case 6:
+                Database.Write(VraagInt("Id: "),"stock.minQuantity",VraagInt("MinQuantity: "));
+                Bevestiging("Product is aangepast.");
             break;
 
             default:
@@ -185,5 +195,15 @@ public static class Menu
             input = Console.ReadLine() ?? string.Empty;
         } while (!double.TryParse(input, out getal));
         return getal;
+    }
+
+    /// <summary>
+    /// Drukt een bevestigingstekst af en wacht op enter.
+    /// </summary>
+    private static void Bevestiging(string bevestiging)
+    {
+        Console.WriteLine(bevestiging);
+        Console.WriteLine("Druk op Enter om verder te gaan...");
+        Console.ReadLine();
     }
 }
