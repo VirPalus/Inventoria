@@ -57,7 +57,6 @@ public static class Menu
 
         if (menu == HoofdMenu)
         {
-          
             switch (keuzen)
             {
                 case 1:
@@ -119,38 +118,53 @@ public static class Menu
         switch (keuzen)
         {
             case 1:
-                Database.Write(VraagInt("Id: "),"name",VraagString("Name: "));
+                Database.Write(VraagId("Id: "),"name",VraagString("Name: "));
                 Bevestiging("\nProduct is aangepast.");
             break;
             
             case 2:
-                Database.Write(VraagInt("Id: "),"description",VraagString("Description: "));
+                Database.Write(VraagId("Id: "),"description",VraagString("Description: "));
                 Bevestiging("\nProduct is aangepast.");
             break;
 
             case 3:
-                Database.Write(VraagInt("Id: "),"category",VraagString("Category: "));
+                Database.Write(VraagId("Id: "),"category",VraagString("Category: "));
                 Bevestiging("\nProduct is aangepast.");
             break;
 
             case 4:
-                Database.Write(VraagInt("Id: "),"price",VraagDouble("Price: "));
+                Database.Write(VraagId("Id: "),"price",VraagDouble("Price: "));
                 Bevestiging("\nProduct is aangepast.");
             break;
 
             case 5:
-                Database.Write(VraagInt("Id: "),"stock.quantity",VraagInt("Quantity: "));
+                Database.Write(VraagId("Id: "),"stock.quantity",VraagInt("Quantity: "));
                 Bevestiging("\nProduct is aangepast.");
             break;
 
             case 6:
-                Database.Write(VraagInt("Id: "),"stock.minQuantity",VraagInt("MinQuantity: "));
+                Database.Write(VraagId("Id: "),"stock.minQuantity",VraagInt("MinQuantity: "));
                 Bevestiging("\nProduct is aangepast.");
             break;
 
             default:
             break;
         }
+    }
+
+    /// <summary>
+    /// Vraagt een geldig bestaand id op uit de database.
+    /// </summary>
+    public static int VraagId(string vraag)
+    {
+        string input;
+        int getal;
+        do
+        {
+            Console.Write(vraag);
+            input = Console.ReadLine() ?? string.Empty;
+        } while (!(int.TryParse(input, out getal) && Database.Exists(getal)));
+        return getal;
     }
 
     /// <summary>
@@ -164,7 +178,7 @@ public static class Menu
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-        } while (!int.TryParse(input, out getal));
+        } while(!(int.TryParse(input, out getal) && getal >= 0));
         return getal;
     }
 
@@ -178,7 +192,7 @@ public static class Menu
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-        } while (string.IsNullOrWhiteSpace(input));
+        } while(string.IsNullOrWhiteSpace(input));
         return input;
     }
 
@@ -193,7 +207,7 @@ public static class Menu
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-        } while (!double.TryParse(input, out getal));
+        } while(!(double.TryParse(input, out getal) && getal >= 0));
         return getal;
     }
 

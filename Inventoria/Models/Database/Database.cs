@@ -24,6 +24,54 @@ public static class Database
     };
 
     /// <summary>
+    /// Gets the next available id that will be assigned to a new item.
+    /// Takes the last item's id + 1. Returns 1 if the database is empty.
+    /// </summary>
+    public static int NextId
+    {
+        get
+        {
+            if (!TryLoadRoot(out JsonNode root))
+            {
+                return 1;
+            }
+
+            if (root["database"] is not JsonArray array)
+            {
+                return 1;
+            }
+
+            if (array.Count == 0)
+            {
+                return 1;
+            }
+
+            int lastIndex = array.Count - 1;
+            if (array[lastIndex] is not JsonNode lastItem)
+            {
+                return array.Count + 1;
+            }
+
+            if (lastItem["id"] is not JsonValue id)
+            {
+                return array.Count + 1;
+            }
+
+            return id.GetValue<int>() + 1;
+        }
+    }
+
+    /// <summary>
+    /// Checks whether an item with the given id exists in the database.
+    /// </summary>
+    /// <param name="id">Id of the item to check.</param>
+    /// <returns>True if the item exists, otherwise false.</returns>
+    public static bool Exists(int id)
+    {
+        return !string.IsNullOrEmpty(Read(id, "id"));
+    }
+
+    /// <summary>
     /// Reads the database JSON file. Creates it if missing.
     /// </summary>
     /// <param name="content">The file content, or empty string if the file is empty.</param>
@@ -177,32 +225,6 @@ public static class Database
     }
 
     /// <summary>
-    /// Gets the next available id by taking the last item's id + 1.
-    /// </summary>
-    /// <param name="array">The database array to check.</param>
-    /// <returns>The next available id. Returns 1 if the array is empty.</returns>
-    private static int GetNextId(JsonArray array)
-    {
-        if (array.Count == 0)
-        {
-            return 1;
-        }
-
-        int lastIndex = array.Count - 1;
-        if (array[lastIndex] is not JsonNode lastItem)
-        {
-            return array.Count + 1;
-        }
-
-        if (lastItem["id"] is not JsonValue id)
-        {
-            return array.Count + 1;
-        }
-
-        return id.GetValue<int>() + 1;
-    }
-
-    /// <summary>
     /// Reads an entire item from the database by id.
     /// </summary>
     /// <param name="id">Id of the item to find.</param>
@@ -338,7 +360,7 @@ public static class Database
             return -1;
         }
 
-        int newId = GetNextId(array);
+        int newId = NextId;
 
         JsonObject finalObj = new()
         {

@@ -120,10 +120,10 @@ Als er producten onder minimum zitten, toont de app deze producten.
 
 ## Wat nog gebouwd moet worden
 
-- [ ] Hoofdmenu met loop
-- [ ] Input-validatie (cijfers, prijzen, bestaande id's)
-- [ ] Product toevoegen flow
-- [ ] Product aanpassen flow
+- [x] Hoofdmenu met loop
+- [x] Input-validatie (cijfers, prijzen, bestaande id's)
+- [x] Product toevoegen flow
+- [x] Product aanpassen flow
 - [ ] Product verwijderen met bevestiging
 - [ ] Product zoeken (id + naam)
 - [ ] Alle producten tabel-overzicht
