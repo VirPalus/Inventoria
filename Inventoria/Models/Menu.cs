@@ -164,7 +164,6 @@ public static class Menu
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-
             geldig = int.TryParse(input, out getal) && Database.Exists(getal);
 
             if (!geldig)
@@ -184,11 +183,20 @@ public static class Menu
     {
         string input;
         int getal;
+        bool geldig;
         do
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-        } while(!(int.TryParse(input, out getal) && getal >= 0));
+            geldig = int.TryParse(input, out getal) && getal >= 0;
+
+            if (!geldig)
+            {
+                ClearLine();
+            }
+
+        } while(!geldig);
+
         return getal;
     }
 
@@ -198,11 +206,20 @@ public static class Menu
     public static string VraagString(string vraag)
     {
         string input;
+        bool geldig;
         do
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-        } while(string.IsNullOrWhiteSpace(input));
+            geldig = !string.IsNullOrWhiteSpace(input);
+
+            if (!geldig)
+            {
+                ClearLine();
+            }
+
+        } while(!geldig);
+
         return input;
     }
 
@@ -213,11 +230,20 @@ public static class Menu
     {
         string input;
         double getal;
+        bool geldig;
         do
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-        } while(!(double.TryParse(input, out getal) && getal >= 0));
+            geldig = double.TryParse(input, out getal) && getal >= 0;
+
+            if (!geldig)
+            {
+                ClearLine();
+            }
+
+        } while(!geldig);
+
         return getal;
     }
 
@@ -232,11 +258,11 @@ public static class Menu
     }
 
     /// <summary>
-    /// Wist een consolelijn.
+    /// Wist de laatste invoerregel in de console.
     /// </summary>
     private static void ClearLine()
     {
-        Console.SetCursorPosition(0, Console.CursorTop - 1);
+        Console.SetCursorPosition(0, Math.Max(0, Console.CursorTop - 1));
         Console.Write(new string(' ', Console.WindowWidth - 1));
         Console.SetCursorPosition(0, Console.CursorTop);
     }
