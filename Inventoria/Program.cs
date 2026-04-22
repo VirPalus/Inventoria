@@ -1,6 +1,4 @@
 using Inventoria;
-using Inventoria.Models;
-using Inventoria.Models.Database;
 
 internal static class Program
 {
