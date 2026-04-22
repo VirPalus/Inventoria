@@ -151,7 +151,6 @@ public static class Menu
             break;
         }
     }
-
     /// <summary>
     /// Vraagt een geldig bestaand id op uit de database.
     /// </summary>
@@ -159,11 +158,22 @@ public static class Menu
     {
         string input;
         int getal;
+        bool geldig;
+
         do
         {
             Console.Write(vraag);
             input = Console.ReadLine() ?? string.Empty;
-        } while (!(int.TryParse(input, out getal) && Database.Exists(getal)));
+
+            geldig = int.TryParse(input, out getal) && Database.Exists(getal);
+
+            if (!geldig)
+            {
+                ClearLine();
+            }
+
+        } while (!geldig);
+
         return getal;
     }
 
@@ -219,5 +229,15 @@ public static class Menu
         Console.WriteLine(bevestiging);
         Console.WriteLine("Druk op Enter om verder te gaan...");
         Console.ReadLine();
+    }
+
+    /// <summary>
+    /// Wist een consolelijn.
+    /// </summary>
+    private static void ClearLine()
+    {
+        Console.SetCursorPosition(0, Console.CursorTop - 1);
+        Console.Write(new string(' ', Console.WindowWidth - 1));
+        Console.SetCursorPosition(0, Console.CursorTop);
     }
 }
