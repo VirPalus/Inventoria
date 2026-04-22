@@ -50,6 +50,7 @@ public static class Menu
             Console.Write(menu);
             input = Console.ReadLine() ?? string.Empty;
         } while(!(int.TryParse(input, out keuzen) && keuzen >= 0 && keuzen <= 6)); // Blijf doorgaan zolang de keuzen geen geldig getal tussen 0 en 6 is.
+       
         if (keuzen == 0)
         {
             return keuzen;
